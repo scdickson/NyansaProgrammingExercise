@@ -2,8 +2,8 @@
 
 ## URL Report
 ###### Usage Instructions
-To use this program, compile with `javac URLReport.java` and run with `java URLReport`.
-###### Complexity Analysis
+To use this program, compile with `javac URLReport.java` and run with `java URLReport FILE.txt`.
+###### Implementation and Complexity Analysis
 ```
 URLs and their corresponding hit counts are stored in a custom URL object.
 
@@ -37,3 +37,26 @@ complexity is O(n).
 ```
 ###### Exercise Instructions (for context)
 ![instructions](https://github.com/scdickson/NyansaProgrammingExercise/raw/master/Images/url_report_instructions.png)
+
+## Producer Consumer Exercise
+###### Usage Instructions
+To use this program, compile with `javac ProducerConsumer.java` and run with `java ProducerConsumer`.
+###### Bug Description
+```
+The existing producer/consumer code suffers from deadlock if a context switch occurs during the call to signal in the
+producer and then again before the call to await in the consumer.
+
+A simple solution to this problem is to put the call to condition.signal() inside the critical section of the producer.
+This way, the producer is guaranteed to hold the lock for the condition when it is called. Consumer threads will have to
+wait until the producer thread has released its lock before they can run, but this is better than a deadlock situation.
+
+Additional problems arise in exception handling. If an exception occurs in the producer and consumer threads while the
+lock is still held, the lock will never be released, causing deadlock. This is fixed by adding a "finally" block in which
+the lock is released even if an exception occurs. Finally, the logic for checking if the queue is empty in the consumer is
+incorrect. This should be a while loop until the queue is not empty, in case of a spurious wakeup of a consumer thread occurs
+when there are no items on the queue.
+
+See the ProducerConsumer.java file for an implementation of the aforementioned fixes. 
+```
+###### Exercise Instructions (for context)
+![instructions](https://github.com/scdickson/NyansaProgrammingExercise/raw/master/Images/producer_consumer_instructions.png)
